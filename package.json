@@ -1,0 +1,29 @@
+{
+  "name": "babel-preset-vca-jsx",
+  "version": "0.0.1",
+  "description": "Support for automatic import of createElement when writing JSX in @vue/composition setup",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/luwanquan/babel-preset-vca-jsx.git"
+  },
+  "keywords": [
+    "@vue/composition-api",
+    "jsx",
+    "babel-preset",
+    "auto-import",
+    "createElement"
+  ],
+  "author": "luwanquan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/luwanquan/babel-preset-vca-jsx/issues"
+  },
+  "homepage": "https://github.com/luwanquan/babel-preset-vca-jsx#readme",
+  "devDependencies": {
+    "@babel/plugin-syntax-jsx": "^7.2.0"
+  }
+}
