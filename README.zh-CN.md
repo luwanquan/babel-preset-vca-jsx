@@ -1,9 +1,9 @@
 # babel-preset-vca-jsx
 在`@ vue/composition-api` 的 `setup` 方法中写JSX时自动导入`createElement`
 
+[demo](https://codesandbox.io/s/babel-preset-vca-jsx-demo-7k5xs)
 
-
-### How use / 如何使用?
+### 如何使用?
 
 1. 安装
 
