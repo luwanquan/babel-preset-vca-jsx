@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-vca-jsx",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Support for automatic import of createElement when writing JSX in @vue/composition-api setup",
   "main": "./src/index.js",
   "scripts": {
