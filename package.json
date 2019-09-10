@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-vca-jsx",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Automatically import createElement as h when writing JSX in a project using @vue/composition-api",
   "main": "./src/index.js",
   "scripts": {
