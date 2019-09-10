@@ -1,20 +1,39 @@
 # babel-preset-vca-jsx
-> 在使用了`@vue/composition-api`的项目中写`JSX`时，将自动导入`createElement`
+> 支持自动导入`createElement as h`以及`setup`函数式组件语法
 
-感谢[@vue/composition-api](https://github.com/vuejs/composition-api)作者的贡献，由于`createElement`的外部实现，编写JSX不再局限于`render`函数或`setup`函数。
+## 功能点
 
-## see [Example](https://codesandbox.io/s/babel-preset-vca-jsx-example-7k5xs)
+1. 写`JSX`时自动导入`createElement as h`
+1. 默认只有`setup`属性的函数式组件语法
 
 
-## 特点
+## [案例](https://codesandbox.io/s/babel-preset-vca-jsx-example-7k5xs)
 
-1. 支持使用`@vue/cli-service-global`启动的快速原型项目
-1. 支持基于`@vue/cli`创建的标准项目
-1. 支持基于Typescript的`.tsx`组件
-1. 兼容现有`render()`中写JSX的组件
-1. 不再局限于在`render()`或`setup()`中写JSX
-1. ...
+编译前
+```javascript
+import { ref } from '@vue/composition-api';
 
+const Hello = (prop, ctx) => {
+    const state = ref('Hello World!');
+    return () => (
+        <h1>{state.value}</h1>
+    );
+};
+```
+
+编译后
+```javascript
+import { ref, createElement as h } from '@vue/composition-api';
+
+const Hello = {
+    setup: (prop, ctx) => {
+        const state = ref('Hello World!');
+        return () => {
+            return h('h1', state.value);
+        };
+    }
+};
+```
 
 ## 使用前提
 
@@ -32,25 +51,25 @@
 
 2. 配置 `babel.config.js`
 
-   ```javascript
-   module.exports = {
-       presets: [
-           'vca-jsx',
-           '@vue/app'
+    ```javascript
+    module.exports = {
+        presets: [
+            "vca-jsx",
+            "@vue/app"
         ]
-   };
-   ```
+    };
+    ```
    
-   或 `.babelrc`
+    或 `.babelrc`
    
-   ```javascript
-   {
-       "presets": [
-           "vca-jsx",
-           "@vue/app"
-       ]
-   }
-   ```
+    ```javascript
+    {
+        "presets": [
+            "vca-jsx",
+            "@vue/app"
+        ]
+    }
+    ```
 
 
 

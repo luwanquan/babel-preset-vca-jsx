@@ -1,21 +1,39 @@
 # babel-preset-vca-jsx
-> Automatically import `createElement as h` when writing `JSX` in a project using `@vue/composition-api`
-
-Thanks to [@vue/composition-api](https://github.com/vuejs/composition-api) author's contribution, Due to the external implementation of `createElement`, writing `JSX` is no longer limited to the `render()` or the `setup()`.
-
-## see [Example](https://codesandbox.io/s/babel-preset-vca-jsx-example-7k5xs)
-
+> Support for automatic import of `createElement as h` and `setup` functional component syntax
 
 ## Feature
 
-1. Support for rapid prototyping projects launched with `@vue/cli-service-global`
-1. Support for standard projects created based on `@vue/cli`
-1. Support for Typescript-based `.tsx` components
-1. Compatible with existing components that use the `render` function
-1. Not limited to writing JSX in the `render()` or `setup()`
-1. ...
+1. Automatically import `createElement as h` when writing `JSX`
+1. The functional component syntax of the `setup` property by default
 
 
+## [Example](https://codesandbox.io/s/babel-preset-vca-jsx-example-7k5xs)
+
+Before compiling
+```javascript
+import { ref } from '@vue/composition-api';
+
+const Hello = (prop, ctx) => {
+    const state = ref('Hello World!');
+    return () => (
+        <h1>{state.value}</h1>
+    );
+};
+```
+
+After compilation
+```javascript
+import { ref, createElement as h } from '@vue/composition-api';
+
+const Hello = {
+    setup: (prop, ctx) => {
+        const state = ref('Hello World!');
+        return () => {
+            return h('h1', state.value);
+        };
+    }
+};
+```
 
 ## Prerequisite
 
@@ -36,8 +54,8 @@ Project with `@vue/composition-api` and `@vue/babel-preset-app` installed
     ```javascript
     module.exports = {
         presets: [
-           'vca-jsx',
-            '@vue/app'
+            "vca-jsx",
+            "@vue/app"
         ]
     };
     ```
