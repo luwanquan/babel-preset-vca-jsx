@@ -36,21 +36,21 @@ const remove$createElement = (t, path) => {
 };
 
 // auto import `createElement as h` from `@vue/composition-api`
-const autoImport = (t, path) => {
+const autoImportH = (t, path) => {
     if (hasJSX(t, path)) {
         const importNodes = path.get('body').filter(p => p.isImportDeclaration()).map(p => p.node);
-        const vfaImportNodes = importNodes.filter(p => p.source.value === importSource);
-        const hasH = vfaImportNodes.some(p => (
+        const vcaImportNodes = importNodes.filter(p => p.source.value === importSource);
+        const hasH = vcaImportNodes.some(p => (
             p.specifiers.some(s => (
                 t.isImportSpecifier(s) && s.imported.name === 'createElement' && s.local.name === 'h'
             ))
         ));
         if (!hasH) {
-            const vfaImportSpecifier = t.importSpecifier(t.identifier('h'), t.identifier('createElement'));
-            if (vfaImportNodes.length > 0) {
-                vfaImportNodes[0].specifiers.push(vfaImportSpecifier);
+            const vcaImportSpecifier = t.importSpecifier(t.identifier('h'), t.identifier('createElement'));
+            if (vcaImportNodes.length > 0) {
+                vcaImportNodes[0].specifiers.push(vcaImportSpecifier);
             } else {
-                path.unshiftContainer('body', t.importDeclaration([vfaImportSpecifier], t.stringLiteral(importSource)));
+                path.unshiftContainer('body', t.importDeclaration([vcaImportSpecifier], t.stringLiteral(importSource)));
             }
         }
     }
@@ -62,7 +62,7 @@ module.exports = ({ types: t }) => {
         visitor: {
             Program(path) {
                 remove$createElement(t, path);
-                autoImport(t, path);
+                autoImportH(t, path);
             }
         }
     }
