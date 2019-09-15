@@ -157,14 +157,16 @@ const injectLifeCycle = (t, path, lifeCycles = [], refs = []) => {
     });
 
     const content = lifeCycles.map(val => (
-        t.callExpression(
-            t.identifier(val),
-            [
-                t.arrowFunctionExpression(
-                    [],
-                    t.blockStatement(statements)
-                )
-            ]
+        t.expressionStatement(
+            t.callExpression(
+                t.identifier(val),
+                [
+                    t.arrowFunctionExpression(
+                        [],
+                        t.blockStatement(statements)
+                    )
+                ]
+            )
         )
     ));
 
