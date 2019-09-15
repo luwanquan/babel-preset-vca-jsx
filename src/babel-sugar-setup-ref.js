@@ -178,18 +178,23 @@ module.exports = ({ types: t }) => {
         visitor: {
             Program(p) {
                 p.traverse({
-                    ObjectMethod(path) {
+                    'ObjectMethod|ObjectProperty'(path) {
                         if (path.node.key.name !== 'setup') return;
-                        const body = path.get('body').get('body');
+                        let container = path;
+                        if (t.isObjectProperty(path)) {
+                            container = path.get('value');
+                        }
+                        if (!t.isBlockStatement(container.get('body'))) return;
+                        const body = container.get('body').get('body');
                         const definedRefs = body.filter(path => isRefCallee(t, path)).map(path => path.get('declarations')[0].node.id.name);
                         if (!definedRefs.length) return;
 
-                        const refs = matchRefsInJSX(t, path, definedRefs);
+                        const refs = matchRefsInJSX(t, container, definedRefs);
 
                         if (!refs.length) return;
                         const lifeCycles = autoImportLifeCycle(t, p, ['onMounted', 'onUpdated']);
                         
-                        injectLifeCycle(t, path, lifeCycles, refs);
+                        injectLifeCycle(t, container, lifeCycles, refs);
                     }
                 })
             }
