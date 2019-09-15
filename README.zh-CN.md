@@ -1,10 +1,31 @@
 # babel-preset-vca-jsx
-> 支持自动导入`createElement as h`以及`setup`函数式组件语法
+> 支持自动导入`createElement as h`以及`setup`函数式组件语法和`setup`中的模板refs引用
 
 ## 功能点
 
 1. 写`JSX`时自动导入`createElement as h`
-1. 默认只有`setup`属性的函数式组件语法
+1. 默认只有`setup()`的函数式组件语法
+    ```javascript
+    const Hello = (prop, ctx) => {
+        const state = ref('hello world');
+        return () => <h1>{state.value}</h1>;
+    };
+    ```
+1. 在`setup()`返回的渲染函数上使用`JSX`分配模板引用
+    ```javascript
+    const Hello = createComponent({
+        setup() {
+            const root = ref(null);
+            watch(() => console.log(root.value)); // <h1>...</h1>
+            /*
+            return () => h('h1', {
+                ref: root
+            }, 'hello world!');
+            */
+            return () => <h1 ref={root}>hello world!</h1>
+        }
+    });
+    ```
 
 
 ## [案例](https://codesandbox.io/s/babel-preset-vca-jsx-example-7k5xs)
@@ -72,9 +93,3 @@ const Hello = {
     ```
 
 
-
-## 为什么是preset而不是plugin?
-
-因为当前的babel插件必须在`@vue/babel-preset-app`之后执行。
-
-请参阅[Babel](https://babeljs.io/docs/en/plugins#plugin-ordering)了解plugins和presets的执行顺序

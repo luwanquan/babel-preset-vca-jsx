@@ -1,10 +1,31 @@
 # babel-preset-vca-jsx
-> Support for automatic import of `createElement as h` and `setup` functional component syntax
+> Support for automatic import of `createElement as h` and `setup` functional component syntax and `setup` template refs
 
 ## Feature
 
 1. Automatically import `createElement as h` when writing `JSX`
-1. The functional component syntax of the `setup` property by default
+1. The functional component syntax of the `setup()` by default
+    ```javascript
+    const Hello = (prop, ctx) => {
+        const state = ref('hello world');
+        return () => <h1>{state.value}</h1>;
+    };
+    ```
+1. Allocating template refs with `JSX` on the render function returned by `setup()`
+    ```javascript
+    const Hello = createComponent({
+        setup() {
+            const root = ref(null);
+            watch(() => console.log(root.value)); // <h1>...</h1>
+            /*
+            return () => h('h1', {
+                ref: root
+            }, 'hello world!');
+            */
+            return () => <h1 ref={root}>hello world!</h1>
+        }
+    });
+    ```
 
 
 ## [Example](https://codesandbox.io/s/babel-preset-vca-jsx-example-7k5xs)
@@ -71,9 +92,3 @@ Project with `@vue/composition-api` and `@vue/babel-preset-app` installed
    }
    ```
 
-
-## Why is preset instead of plugin?
-
-Because the current babel plugin must be executed after `@vue/babel-preset-app`.
-
-See [Babel](https://babeljs.io/docs/en/plugins#plugin-ordering) for the order in which plugins and presets are executed.
