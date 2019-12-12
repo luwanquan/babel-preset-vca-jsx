@@ -103,7 +103,7 @@ Project with `@vue/composition-api` and `@vue/babel-preset-app` installed
         return <h1>Hello World!</h1>;
     };
     ```
-    **Tips：The first letter of the variable name must be capitalized. For details of the callback parameters, see [Detail](https://cn.vuejs.org/v2/guide/render-function.html#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BB%84%E4%BB%B6)**
+    **Tips：The first letter of the variable name must be capitalized. For details of the callback parameters, see [Detail](https://vuejs.org/v2/guide/render-function.html)**
 
   - The `composition-api functional` component based on this plugin is essentially a `setup` function, and the shorthand in `jsx` is as follows
     ``` javascript
