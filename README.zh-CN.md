@@ -26,6 +26,7 @@
         }
     });
     ```
+1. 修复 [@vue/babel-sugar-v-model@1.1.2](https://github.com/vuejs/jsx/tree/dev/packages/babel-sugar-v-model) 在 `setup()` 中调用 `this` 的问题
 
 
 ## [案例](https://codesandbox.io/s/babel-preset-vca-jsx-example-7k5xs)
@@ -92,4 +93,22 @@ const Hello = {
     }
     ```
 
+## 注意
 
+- 这里需要区分默认的 `functional`组件和基于 `composition-api` 的 `functional`组件的概念
+
+  - 默认的 `functional`组件实质是 `render`函数，`jsx`中的简写写法如下
+    ``` javascript
+    const Test = ({ props, children, data, ... }) => {
+        return <h1>Hello World!</h1>;
+    };
+    ```
+    **注：变量名首字母必须为大写，具体回调参数见[详情](https://cn.vuejs.org/v2/guide/render-function.html#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BB%84%E4%BB%B6)**
+
+  - 基于本插件的 `composition-api functional`实质是 `setup`函数，`jsx`中的简写写法如下
+    ``` javascript
+    const Test = (props, { refs, emit, ... }) => {
+        return () => <h1>Hello World!</h1>;
+    };
+    ```
+    **注：与默认`functional`的区别是返回了一个`render`函数**
