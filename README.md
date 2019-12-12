@@ -59,7 +59,7 @@ const Hello = {
 
 ## Prerequisite
 
-Project with `@vue/composition-api` and `@vue/babel-preset-app` installed
+Project with `@vue/composition-api` and `@vue/cli-plugin-babel` installed
 
 
 
@@ -77,21 +77,10 @@ Project with `@vue/composition-api` and `@vue/babel-preset-app` installed
     module.exports = {
         presets: [
             "vca-jsx",
-            "@vue/app"
+            "@vue/cli-plugin-babel/preset"
         ]
     };
     ```
-
-   or `.babelrc`
-
-   ```javascript
-   {
-       "presets": [
-           "vca-jsx",
-           "@vue/app"
-       ]
-   }
-   ```
 
 ## Note
 

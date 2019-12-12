@@ -77,21 +77,11 @@ const Hello = {
     module.exports = {
         presets: [
             "vca-jsx",
-            "@vue/app"
+            "@vue/cli-plugin-babel/preset"
         ]
     };
     ```
-   
-    或 `.babelrc`
-   
-    ```javascript
-    {
-        "presets": [
-            "vca-jsx",
-            "@vue/app"
-        ]
-    }
-    ```
+
 
 ## 注意
 
