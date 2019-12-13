@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-vca-jsx",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Support for automatic import of createElement as h and setup functional component syntax and setup template refs",
   "main": "./src/index.js",
   "scripts": {
