@@ -33,7 +33,7 @@ module.exports = ({ types: t }) => {
             path.traverse({
               JSXAttribute(path) {
                 const n = path.get("name");
-                const isInputOrModel = n.node.name === "on-input" || n.node.name === "model";
+                const isInputOrModel = n.node.name === "on-input" || n.node.name === "on-change" || n.node.name === "model";
                 if (!isInputOrModel) return;
                 path.traverse({
                   MemberExpression(path) {
