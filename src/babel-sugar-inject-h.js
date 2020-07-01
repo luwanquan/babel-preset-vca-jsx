@@ -46,7 +46,7 @@ const autoImportH = (t, path) => {
             ))
         ));
         if (!hasH) {
-            const vcaImportSpecifier = t.importSpecifier(t.identifier('h'), t.identifier('createElement'));
+            const vcaImportSpecifier = t.importSpecifier(t.identifier('h'), t.identifier('h'));
             if (vcaImportNodes.length > 0) {
                 vcaImportNodes[0].specifiers.push(vcaImportSpecifier);
             } else {
