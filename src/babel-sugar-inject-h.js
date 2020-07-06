@@ -42,7 +42,7 @@ const autoImportH = (t, path) => {
         const vcaImportNodes = importNodes.filter(p => p.source.value === importSource);
         const hasH = vcaImportNodes.some(p => (
             p.specifiers.some(s => (
-                t.isImportSpecifier(s) && s.imported.name === 'createElement' && s.local.name === 'h'
+                t.isImportSpecifier(s) && s.imported.name === 'h' && s.local.name === 'h'
             ))
         ));
         if (!hasH) {
