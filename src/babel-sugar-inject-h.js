@@ -35,25 +35,36 @@ const remove$createElement = (t, path) => {
     });
 };
 
-// auto import `createElement as h` from `@vue/composition-api`
-const autoImportH = (t, path) => {
-    if (hasJSX(t, path)) {
-        const importNodes = path.get('body').filter(p => p.isImportDeclaration()).map(p => p.node);
-        const vcaImportNodes = importNodes.filter(p => p.source.value === importSource);
-        const hasH = vcaImportNodes.some(p => (
-            p.specifiers.some(s => (
-                t.isImportSpecifier(s) && s.imported.name === 'createElement' && s.local.name === 'h'
-            ))
-        ));
-        if (!hasH) {
-            const vcaImportSpecifier = t.importSpecifier(t.identifier('h'), t.identifier('createElement'));
-            if (vcaImportNodes.length > 0) {
-                vcaImportNodes[0].specifiers.push(vcaImportSpecifier);
-            } else {
-                path.unshiftContainer('body', t.importDeclaration([vcaImportSpecifier], t.stringLiteral(importSource)));
-            }
-        }
-    }
+/**
+ * Declares "const h = ctx.root.$createElement" within the "setup" scope to render JSX
+ *
+ */
+const insertDeclareCreateElement = (t, path) => {
+    path.traverse({
+        ObjectProperty(p) {
+            const isSetup = p.node.key.name === "setup";
+            if (!isSetup) return;
+            const value = p.get("value");
+            const body = value.get("body");
+            body.unshiftContainer(
+                "body",
+                t.variableDeclaration("const", [
+                    t.variableDeclarator(
+                        t.identifier("h"),
+                        t.memberExpression(
+                            t.memberExpression(
+                                t.identifier("ctx"),
+                                t.identifier("root"),
+                                false
+                            ),
+                            t.identifier("$createElement"),
+                            false
+                        )
+                    ),
+                ])
+            );
+        },
+    });
 }
 
 module.exports = ({ types: t }) => {
@@ -62,7 +73,7 @@ module.exports = ({ types: t }) => {
         visitor: {
             Program(path) {
                 remove$createElement(t, path);
-                autoImportH(t, path);
+                insertDeclareCreateElement(t, path);
             }
         }
     }
